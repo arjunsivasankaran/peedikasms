@@ -24,7 +24,7 @@ public class OtpController {
         String status = userService.saveUser(user);
         OtpResponse otpResponse = new OtpResponse();
         if (status.equalsIgnoreCase("success")) {
-            otpResponse.setOtpnumber(otpGenerator.generateOtpNumber());
+            otpResponse.setOtpnumber(otpGenerator.generateOtpNumber(user.getPhoneNumber()));
         }
         return new ResponseEntity<OtpResponse>(otpResponse, HttpStatus.OK);
     }

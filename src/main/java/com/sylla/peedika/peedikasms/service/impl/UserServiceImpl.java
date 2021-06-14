@@ -8,16 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
     @Override
     public String saveUser(Users user) throws ServiceException {
-        Optional<Users> rateEntity = Optional.ofNullable(userRepository.getUserByPhoneNumber(user.getPhoneNumber()));
-        if(rateEntity.isEmpty()){
-            userRepository.save(user);
+        try {
+            Optional<Users> rateEntity = Optional.ofNullable(userRepository.getUserByPhoneNumber(user.getPhoneNumber()));
+            if (rateEntity.isEmpty()) {
+                userRepository.save(user);
+            }
+            return "Success";
+        } catch (Exception e) {
+            throw new ServiceException("Invalid data");
         }
-        return "Success";
+
     }
 }

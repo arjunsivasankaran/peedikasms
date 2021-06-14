@@ -44,4 +44,8 @@ public class OtpGenerator {
             throw new ServiceException("OTP Not Found");
         }
     }
+
+    public void clearOTP(String key){
+        otpCache.invalidate(key);
+    }
 }

@@ -1,5 +1,6 @@
 package com.sylla.peedika.peedikasms.controller;
 
+import antlr.StringUtils;
 import com.sylla.peedika.peedikasms.Exception.ServiceException;
 import com.sylla.peedika.peedikasms.model.Users;
 import com.sylla.peedika.peedikasms.model.repsonse.OtpResponse;
@@ -28,4 +29,20 @@ public class OtpController {
         }
         return new ResponseEntity<OtpResponse>(otpResponse, HttpStatus.OK);
     }
+
+    @RequestMapping("/api/validateotp")
+    public String validateOtp(@RequestParam("otpNumber") String otpNumber, @RequestBody Users user) throws ServiceException {
+        String serverOtp = "";
+        if (!otpNumber.isEmpty() || otpNumber != null)
+            serverOtp = otpGenerator.getOtp(user.getPhoneNumber());
+        if (otpNumber.equalsIgnoreCase(serverOtp)) {
+            otpGenerator.clearOTP(user.getPhoneNumber());
+            return "Success";
+        } else {
+            throw new ServiceException("Invalid OTP");
+        }
+
+    }
+
+
 }

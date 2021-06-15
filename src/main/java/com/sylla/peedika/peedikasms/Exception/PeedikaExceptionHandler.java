@@ -14,6 +14,11 @@ public class PeedikaExceptionHandler {
     public final ResponseEntity<ErrorResponse> handleInternalServerError(ServiceException serverException) {
         return generateErrorResponse(serverException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(InvalidOTPException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public final ResponseEntity<ErrorResponse> handleInternalServerError(InvalidOTPException serverException) {
+        return generateErrorResponse(serverException, HttpStatus.UNAUTHORIZED);
+    }
 
     private ResponseEntity<ErrorResponse> generateErrorResponse(Exception ex, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse();
